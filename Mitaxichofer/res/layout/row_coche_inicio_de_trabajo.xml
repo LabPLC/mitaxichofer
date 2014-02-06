@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.30"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_launcher" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".7"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/row_coche_inicio_de_secion_tv_marca"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Marca: "
+                android:textColor="@color/generic_amarillo"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/row_coche_inicio_de_secion_tv_submarca"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submarca: "
+                android:textColor="@color/generic_amarillo" />
+
+            <TextView
+                android:id="@+id/row_coche_inicio_de_secion_tv_ano"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Año: "
+                android:textColor="@color/generic_amarillo" />
+
+            <TextView
+                android:id="@+id/row_coche_inicio_de_secion_tv_tipo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tipo: "
+                android:textColor="@color/generic_amarillo" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/generic_amarillo" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:text="¿Con qué servicios adicionales cuenta el taxi?"
+        android:textColor="@color/generic_amarillo" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/row_coche_inicio_de_secion_iv_discapacitado"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="0.30"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_launcher" />
+
+        <ImageView
+            android:id="@+id/row_coche_inicio_de_secion_iv_mascota"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight=".3"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_launcher" />
+
+        <ImageView
+            android:id="@+id/row_coche_inicio_de_secion_iv_bici"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight=".3"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_launcher" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/row_coche_inicio_de_secion_btn_iniciar_dia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/selector_btn_generic"
+            android:text="Aceptar"
+            android:textColor="@drawable/selector_txt_boton_redondo" />
+    </LinearLayout>
+
+</LinearLayout>

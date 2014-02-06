@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MitaxiRegistrerChofer</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+
+    <!-- Registro manualmente -->
+    <string name="mitaxiregisterchofer_name">Registro</string>
+    <string name="mitaxiregisterchofer_error">Corrige los datos antes de avanzar.</string>
+    <string name="mitaxiregisterchofer_error_string">Escribe cadena válida [a-z A-Z].</string>
+    <string name="mitaxiregisterchofer_error_number">Escribe número válido [0 9].</string>
+    <string name="mitaxiregisterchofer_error_email">Escribe sintaxis de correo válida.</string>
+    <string name="mitaxiregisterchofer_empty">Los campos no pueden dejarse en blanco.</string>
+    <string name="mitaxiregisterchofer_tv_title">Registro</string>
+    <string name="mitaxiregisterchofer_et_name_hint">Nombre</string>
+    <string name="mitaxiregisterchofer_et_appat_hint">Apellido paterno</string>
+    <string name="mitaxiregisterchofer_et_apmat_hint">Apellido materno</string>
+    <string name="mitaxiregisterchofer_et_teluser_hint">Teléfono</string>
+    <string name="mitaxiregisterchofer_et_licencia_hint">Licencia</string>
+    <string name="mitaxiregisterchofer_et_vigencia">Vigencia: </string>
+    <string name="mitaxiregisterchofer_et_idiomas">Idiomas: </string>
+    <string name="mitaxiregisterchofer_et_antiguedad">Antiguedad: </string>
+    <string name="mitaxiregisterchofer_tv_foto">Fotografía: </string>
+    <string name="mitaxiregisterchofer_btn_fecha">Agregar</string>
+    <string name="mitaxiregisterchofer_et_paraque">¿Para qué?</string>
+    <string name="mitaxiregisterchofer_btn_cancel">Cancelar</string>
+    <string name="mitaxiregisterchofer_btn_ok">Registrar</string>
+
+    <!-- Validations EditText -->
+    <string name="edittext_emtpy">Llena todos los campos.</string>
+    <string name="edittext_wrong_info">Corrige campos de texto incorrectos.</string>
+    <string name="edittext_error_string">Escribe cadena válida [a-z A-Z].</string>
+    <string name="edittext_error_number">Escribe número válido [0&#8211;9].</string>
+    <string name="edittext_error_email">Escribe sintaxis de correo válida.</string>
+    <string name="edittext_error_telephone_repeated">Teléfono de usuario y emergencia no debe ser el mismo</string>
+    <string name="title_activity_idiomas_dialog">IdiomasDialogActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_inicio_de_trabajo">InicioDeTrabajo</string>
+    
+     <string name="transaction_wrong">Ops#8230; Ocurrió un error al hacer la conexión con el servidor.</string>
+     
+     <!-- tracking taximetro -->
+    <string name="esperando">esperando...</string>
+    <string name="arranacarServicio">Arrancar servicio</string>
+    <string name="detenerServicio">Detener servicio</string>
+
+</resources>

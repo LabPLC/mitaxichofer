@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+      <!-- Generic button -->
+    <color name="generic_btn_unpressed">#FFBB33</color>
+    <color name="generic_btn_pressed">#FF8800</color>
+    <color name="generic_amarillo">#f0c648</color> 
+    
+</resources>
