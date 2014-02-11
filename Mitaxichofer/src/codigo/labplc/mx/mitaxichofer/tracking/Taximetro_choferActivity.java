@@ -125,7 +125,9 @@ public class Taximetro_choferActivity extends Activity {
 				}
 
 				//generamos la conexi—n con el servidor y mandamos las coordenads
-				socket.emit("locmsg", cadena);
+				socket.emit("update", cadena);
+				
+				//socket.emit("updatedisp",cadena);//uuid,lat,lng,disp
 		}
 	};
 

@@ -37,12 +37,12 @@
     <string name="title_activity_idiomas_dialog">IdiomasDialogActivity</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_inicio_de_trabajo">InicioDeTrabajo</string>
-    
-     <string name="transaction_wrong">Ops#8230; Ocurrió un error al hacer la conexión con el servidor.</string>
-     
-     <!-- tracking taximetro -->
+    <string name="transaction_wrong">Ops#8230; Ocurrió un error al hacer la conexión con el servidor.</string>
+
+    <!-- tracking taximetro -->
     <string name="esperando">esperando...</string>
     <string name="arranacarServicio">Arrancar servicio</string>
     <string name="detenerServicio">Detener servicio</string>
+    <string name="title_activity_viaje_posible">Viaje_posible</string>
 
 </resources>
