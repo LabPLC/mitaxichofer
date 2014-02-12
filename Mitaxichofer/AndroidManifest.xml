@@ -24,7 +24,7 @@
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="codigo.labplc.mx.mitaxichofer.MainActivity"
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,38 +33,43 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".registrer.RegistroChoferActivity"
+            android:name="codigo.labplc.mx.mitaxichofer.registrer.RegistroChoferActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.NoActionBar"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
-            android:name=".registrer.dialogos.IdiomasDialogActivity"
+            android:name="codigo.labplc.mx.mitaxichofer.registrer.dialogos.IdiomasDialogActivity"
             android:label="@string/title_activity_idiomas_dialog"
             android:theme="@android:style/Theme.DeviceDefault.Dialog.NoActionBar" >
         </activity>
         <activity
-            android:name=".registrer.mitaxiregistrerchoferTaxiActivity"
+            android:name="codigo.labplc.mx.mitaxichofer.registrer.mitaxiregistrerchoferTaxiActivity"
             android:label="@string/app_name"
             android:screenOrientation="landscape" >
         </activity>
 
-        <service android:name=".registrer.servicios.ServicioGeolocalizacion" />
+        <service android:name="codigo.labplc.mx.mitaxichofer.registrer.servicios.ServicioGeolocalizacion" />
 
         <activity
-            android:name=".registrer.InicioDeTrabajo"
+            android:name="codigo.labplc.mx.mitaxichofer.registrer.InicioDeTrabajo"
             android:label="@string/title_activity_inicio_de_trabajo"
-                        android:screenOrientation="portrait"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.NoActionBar" >
         </activity>
         <activity
-            android:name=".tracking.Taximetro_choferActivity"
+            android:name="codigo.labplc.mx.mitaxichofer.tracking.Taximetro_choferActivity"
             android:label="@string/app_name"
             android:screenOrientation="landscape" >
         </activity>
 
-        <service android:name=".tracking.servicios.ServicioGeolocalizacion" />
+        <service android:name="codigo.labplc.mx.mitaxichofer.tracking.servicios.ServicioGeolocalizacion" />
+
+        <activity
+            android:name="codigo.labplc.mx.mitaxichofer.pasajeposible.Viaje_posible"
+            android:label="@string/title_activity_viaje_posible" >
+        </activity>
     </application>
 
 </manifest>

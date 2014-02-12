@@ -18,7 +18,7 @@
             android:layout_weight="0.30"
             android:contentDescription="@string/app_name"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/mi_taxi_assets_taxi_on" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -86,7 +86,7 @@
             android:layout_weight="0.30"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/mi_taxi_assets_accesible_off" />
 
         <ImageView
             android:id="@+id/row_coche_inicio_de_secion_iv_mascota"
@@ -95,7 +95,7 @@
             android:layout_weight=".3"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/mi_taxi_assets_mascota_off" />
 
         <ImageView
             android:id="@+id/row_coche_inicio_de_secion_iv_bici"
@@ -104,7 +104,7 @@
             android:layout_weight=".3"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/mi_taxi_assets_bici_off" />
     </LinearLayout>
 
     <LinearLayout

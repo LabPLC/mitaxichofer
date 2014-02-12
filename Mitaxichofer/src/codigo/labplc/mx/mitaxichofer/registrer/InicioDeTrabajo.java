@@ -49,6 +49,11 @@ public class InicioDeTrabajo extends Activity {
 	private AlertDialog customDialog= null;	//Creamos el dialogo generico
 	AutoBean autoBean = null;
 	private LinearLayout inicio_de_trabajo_ll_carro;
+	private boolean isDiscapacitado=false;
+	private boolean isAnimales=false;
+	private boolean isBicicleta= false;
+	private String uuid=null;
+	private String placaIn =null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +65,10 @@ public class InicioDeTrabajo extends Activity {
 		ImageView	inicio_de_trabajo_iv_foto =(ImageView)findViewById(R.id.inicio_de_trabajo_iv_foto);
 
 		SharedPreferences prefs = getSharedPreferences("MisPreferenciasChofer",Context.MODE_PRIVATE);
+		uuid=prefs.getString("uuid", null);
 		String foto = prefs.getString("foto", null);
 		File imgFile = new  File(foto);
 		if(imgFile.exists()){
-			
 		    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
 		    Matrix mat = new Matrix();
 	        mat.postRotate(-90);
@@ -94,7 +99,7 @@ public class InicioDeTrabajo extends Activity {
 			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				 String placaIn = inicio_de_trabajo_et_placa.getText().toString();
+				  placaIn = inicio_de_trabajo_et_placa.getText().toString();
 
 		            if (placaIn.length() ==6) {
 		            	//buscando datos del carro en el servidor
@@ -227,30 +232,52 @@ public class InicioDeTrabajo extends Activity {
 		TextView row_coche_inicio_de_secion_tv_tipo =(TextView)view.findViewById(R.id.row_coche_inicio_de_secion_tv_tipo);
 		row_coche_inicio_de_secion_tv_tipo.append(autoBean.getTipo());
 		
-		ImageView row_coche_inicio_de_secion_iv_discapacitado =(ImageView) view.findViewById(R.id.row_coche_inicio_de_secion_iv_discapacitado);
+		final ImageView row_coche_inicio_de_secion_iv_discapacitado =(ImageView) view.findViewById(R.id.row_coche_inicio_de_secion_iv_discapacitado);
 		row_coche_inicio_de_secion_iv_discapacitado.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+				if(isDiscapacitado){
+					isDiscapacitado=false;
+					row_coche_inicio_de_secion_iv_discapacitado.setImageDrawable(getResources().getDrawable(R.drawable.mi_taxi_assets_accesible_off));
+				}else{
+					isDiscapacitado=true;
+					row_coche_inicio_de_secion_iv_discapacitado.setImageDrawable(getResources().getDrawable(R.drawable.mi_taxi_assets_accesible_on));
+
+				}
 				
 			}
 		});
 		
-		ImageView row_coche_inicio_de_secion_iv_mascota =(ImageView) view.findViewById(R.id.row_coche_inicio_de_secion_iv_mascota);
+		final ImageView row_coche_inicio_de_secion_iv_mascota =(ImageView) view.findViewById(R.id.row_coche_inicio_de_secion_iv_mascota);
 		row_coche_inicio_de_secion_iv_mascota.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				
+				if(isAnimales){
+					isAnimales=false;
+					row_coche_inicio_de_secion_iv_mascota.setImageDrawable(getResources().getDrawable(R.drawable.mi_taxi_assets_mascota_off));
+
+				}else{
+					isAnimales=true;
+					row_coche_inicio_de_secion_iv_mascota.setImageDrawable(getResources().getDrawable(R.drawable.mi_taxi_assets_mascota_on));
+				}
 			}
 		});
 		
-		ImageView row_coche_inicio_de_secion_iv_bici =(ImageView) view.findViewById(R.id.row_coche_inicio_de_secion_iv_bici);
+		final ImageView row_coche_inicio_de_secion_iv_bici =(ImageView) view.findViewById(R.id.row_coche_inicio_de_secion_iv_bici);
 		row_coche_inicio_de_secion_iv_bici.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				
+				if(isBicicleta){
+					isBicicleta=false;
+					row_coche_inicio_de_secion_iv_bici.setImageDrawable(getResources().getDrawable(R.drawable.mi_taxi_assets_bici_off));
+		
+				}else{
+					isBicicleta=true;
+					row_coche_inicio_de_secion_iv_bici.setImageDrawable(getResources().getDrawable(R.drawable.mi_taxi_assets_bici_on));
+				}
 			}
 		});
 		
@@ -258,9 +285,73 @@ public class InicioDeTrabajo extends Activity {
 		row_coche_inicio_de_secion_btn_iniciar_dia.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
-			public void onClick(View v) {
-				startActivity(new Intent(InicioDeTrabajo.this,Taximetro_choferActivity.class));
-				InicioDeTrabajo.this.finish();
+			public void onClick(View v){
+				
+				//taxi.php?pk=124dsd&placa=23ddfa2&tipo=libre&mascota=TRUE&accesible=TRUE&bici=TRUE
+				//String x="http://datos.labplc.mx/~mikesaurio/taxi.php?pk="+uuid+"&placa="+placaIn+"&tipo="+autoBean.getTipo()+"&mascota="+isAnimales+"&accesible="+isDiscapacitado+"&bici="+isBicicleta+"";
+				//Log.d("**************", x+"");
+				String Sjson = doHttpConnection("http://datos.labplc.mx/~mikesaurio/taxi.php?act=chofer&type=login&pk="+uuid+"&placa="+placaIn+"&tipo="+autoBean.getTipo()+"&mascota="+isAnimales+"&accesible="+isDiscapacitado+"&bici="+isBicicleta+"");
+			    //Log.d("**************", Sjson+"");
+			    String errorJson;
+				String successJson;
+				 JSONObject json= null;
+				 JSONObject json2 = null;
+				 
+				try {
+					json = (JSONObject) new JSONTokener(Sjson).nextValue();
+				     json2 = json.getJSONObject("message");
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+				}
+
+				 try {
+					 errorJson = (String) json2.get("error");
+				 } catch (JSONException e) { errorJson = null; }
+				 try {
+					 successJson = (String) json2.get("success");
+				 } catch (JSONException e) { successJson = null;}
+				 
+				
+				if(errorJson!=null){
+					Toast.makeText(getBaseContext(), "Error ya existes", Toast.LENGTH_LONG).show();
+				}	
+				if(successJson!=null){
+					Toast.makeText(getBaseContext(), "Sesion iniciada", Toast.LENGTH_LONG).show();
+					startActivity(new Intent(InicioDeTrabajo.this,Taximetro_choferActivity.class));
+					InicioDeTrabajo.this.finish();
+				}
+			
+				
+				/*int NOTIFICATION_ID = 1;
+				String ns = Context.NOTIFICATION_SERVICE;
+				NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
+				int icon = R.drawable.ic_launcher;
+				long when = System.currentTimeMillis();
+				Notification notification = new Notification(icon,"hola que hace", when);
+				
+				RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notificacion_estatus);
+				contentView.setImageViewResource(R.id.notification_image, R.drawable.ic_launcher);
+				contentView.setTextViewText(R.id.notification_title, "My custom notification title");
+				contentView.setTextViewText(R.id.notification_text, "My custom notification text");
+				notification.contentView = contentView;
+				
+				
+				Intent notificationIntent = new Intent(InicioDeTrabajo.this, RegistroChoferActivity.class);
+				PendingIntent contentIntent =PendingIntent.getActivity(InicioDeTrabajo.this, 0, notificationIntent, 0);
+
+				notification.contentIntent = contentIntent;
+				
+				notification.flags |= Notification.FLAG_NO_CLEAR; //Do not clear the notification
+				notification.defaults |= Notification.DEFAULT_LIGHTS; // LED
+				notification.defaults |= Notification.DEFAULT_VIBRATE; //Vibration
+				notification.defaults |= Notification.DEFAULT_SOUND; // Sound
+
+				mNotificationManager.notify(NOTIFICATION_ID, notification);*/
+				
+				//startActivity(new Intent(InicioDeTrabajo.this,Taximetro_choferActivity.class));
+				//InicioDeTrabajo.this.finish();
+				
+				
 				
 			}
 		});
@@ -297,4 +388,6 @@ public class InicioDeTrabajo extends Activity {
 		}
 	}
 
+	
+	
 }
