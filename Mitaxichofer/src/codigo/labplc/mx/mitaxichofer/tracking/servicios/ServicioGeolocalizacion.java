@@ -114,9 +114,9 @@ public class ServicioGeolocalizacion extends Service implements Runnable{
 	 * Hilo de la aplicacion para cargar las cordenadas del usuario
 	 */
 	public void run() {
-		if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+		if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			Looper.prepare();
-			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 0, mLocationListener);
+			mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 0, mLocationListener);
 			Looper.loop();
 			Looper.myLooper().quit();
 		} else {

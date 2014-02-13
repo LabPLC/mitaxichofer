@@ -65,8 +65,10 @@ public class SocketConnection {
 
 			@Override
 			public void on(String event, IOAcknowledge ack, Object... args) {
-				System.out
-						.println("Servidor de eventos activa '" + event + "'");
+				System.out.println("Servidor de eventos activa '" + event + "'");
+				System.out.println("Servidor de eventos activa '" + args[0] + "'");
+				
+				
 			}
 		});
 		//regresamos el socket ya construido y conectado
