@@ -4,9 +4,14 @@ import io.socket.IOAcknowledge;
 import io.socket.IOCallback;
 import io.socket.SocketIO;
 import io.socket.SocketIOException;
+
 import java.net.MalformedURLException;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.annotation.TargetApi;
 
 /**
  * 
@@ -63,11 +68,30 @@ public class SocketConnection {
 				System.out.println("Conexi—n establicida");
 			}
 
+			@TargetApi(19)
 			@Override
 			public void on(String event, IOAcknowledge ack, Object... args) {
-				System.out.println("Servidor de eventos activa '" + event + "'");
+			//	System.out.println("Servidor de eventos activa '" + event + "'");
 				System.out.println("Servidor de eventos activa '" + args[0] + "'");
-				
+				try {
+					  JSONObject jsonObj = new JSONObject(args[0].toString());
+		                String disposicion = jsonObj.getString("disposicion");
+		                disposicion  = disposicion.replaceAll(" ", "");
+		                if(disposicion.equals("libre")){
+		                	 System.out.println("*******" + "Libre"+ "");
+		                	 
+		                }else if(disposicion.equals("ocupˆdo")){
+		                	 System.out.println("*******" + "ocupado"+ "");
+		                	 
+		                }else if(disposicion.equals("pendiente")){
+		                	 System.out.println("*******" + "pendiente"+ "");
+		                	 //tiene que pedir los datos del viaje que se encuentra en la tabla viaje
+		        
+		                }
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}    
 				
 			}
 		});
