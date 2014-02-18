@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.TargetApi;
+import android.widget.Toast;
 
 /**
  * 
@@ -85,7 +86,7 @@ public class SocketConnection {
 		                	 
 		                }else if(disposicion.equals("pendiente")){
 		                	 System.out.println("*******" + "pendiente"+ "");
-		                	 //tiene que pedir los datos del viaje que se encuentra en la tabla viaje
+		                	 System.out.println("*******" + "WEEEEEEEEEEE"+ "");
 		        
 		                }
 				} catch (JSONException e) {
