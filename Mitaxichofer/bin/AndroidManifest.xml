@@ -68,7 +68,8 @@
 
         <activity
             android:name="codigo.labplc.mx.mitaxichofer.pasajeposible.Viaje_posible"
-            android:label="@string/title_activity_viaje_posible" >
+            android:label="@string/title_activity_viaje_posible"
+            android:theme="@android:style/Theme.Holo.NoActionBar" >
         </activity>
     </application>
 

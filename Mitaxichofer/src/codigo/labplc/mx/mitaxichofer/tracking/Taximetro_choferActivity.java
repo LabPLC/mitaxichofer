@@ -42,7 +42,7 @@ public class Taximetro_choferActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_taxi);
-		socket=new SocketConnection().connection();
+		socket=new SocketConnection(this).connection();
 		
 		mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		/**
