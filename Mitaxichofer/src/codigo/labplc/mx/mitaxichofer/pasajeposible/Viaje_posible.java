@@ -9,10 +9,12 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -21,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import codigo.labplc.mx.mitaxichofer.R;
+import codigo.labplc.mx.mitaxichofer.tracking.Taximetro_choferActivity;
 
 public class Viaje_posible extends Activity {
 
@@ -33,8 +36,8 @@ public class Viaje_posible extends Activity {
 	private TextView viaje_posible_tv_direccion_destino;
 	private Button viaje_posible_btn_cancel;
 	private Button viaje_posible_btn_ok;
-	private String pk_viaje=null,origen=null,destino=null;
-	private String pasajeros= "1";
+	private String pk_viaje=null,origen=null,destino=null,Sorigen=null,Sdestino=null;
+	private String pasajeros= "1",timpoOrigen="0",tiempoDestino="0",distanciaOrigen="0",distanciaDestino="0";
 	private String mascotas,discapacitados,bicicleta;
 	private ImageView viaje_posible_iv_destino, viaje_posible_iv_origen;
 	
@@ -73,14 +76,33 @@ public class Viaje_posible extends Activity {
 		try {
 		//mostramos los resultados al chofer en el viaje
 		JSONObject jObj = new JSONObject(querty);
-			origen = jObj.getString("origin_addresses");
-			destino = jObj.getString("destination_addresses");
-			destino = jObj.getString("destination_addresses");
+			Sorigen = jObj.getString("origin_addresses");
+			Sdestino = jObj.getString("destination_addresses");
+			 JSONArray rows = jObj.getJSONArray("rows"); // Get all JSONArray rows
+	            for(int i=0; i < rows.length(); i++) { // Loop over each each row
+	                JSONObject row = rows.getJSONObject(i); // Get row object
+	                JSONArray elements = row.getJSONArray("elements"); // Get all elements for each row as an array
+
+	                for(int j=0; j < elements.length(); j++) { // Iterate each element in the elements array
+	                    JSONObject element =  elements.getJSONObject(j); // Get the element object
+	                    JSONObject duration = element.getJSONObject("duration"); // Get duration sub object
+	                    JSONObject distance = element.getJSONObject("distance"); // Get distance sub object
+	                    tiempoDestino=duration.getString("text");
+	                    distanciaDestino	= distance.getString("text");
+	                }
+	            }
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	 
 		
+		
+	String[] ubicacionTaxi =	Taximetro_choferActivity.tokens;
+	String consulta2 = "http://datos.labplc.mx/~mikesaurio/taxi.php?act=chofer&type=getGoogleData&lato="
+			+ubicacionTaxi[0]+"&lngo="+ubicacionTaxi[1]
+			+"&latd="+ sorigen[0]+"&lngd="+ sorigen[1]+"&filtro=velocidad";
+	String querty2 = doHttpConnection(consulta2);
+	querty2= querty2.replaceAll("\"","");
+	String[] Squerty2 = querty2.split(",");
 		//peticion de mi ubicacion al usuario y del usuario al destino
 		
 		
@@ -88,15 +110,23 @@ public class Viaje_posible extends Activity {
 		viaje_posible_tv_numero_pasajeros.append(pasajeros+"");
 		
 		viaje_posible_tv_direccion_origen = (TextView) findViewById(R.id.viaje_posible_tv_direccion_origen);
-		viaje_posible_tv_direccion_origen.append(origen+"");
+		viaje_posible_tv_direccion_origen.append(Sorigen+"");
 		
 		viaje_posible_tv_direccion_destino = (TextView) findViewById(R.id.viaje_posible_tv_direccion_destino);
-		viaje_posible_tv_direccion_destino.append(destino+"");
+		viaje_posible_tv_direccion_destino.append(Sdestino+"");
 
-
+		viaje_posible_tv_tiempo_destino = (TextView) findViewById(R.id.viaje_posible_tv_tiempo_destino);
+		viaje_posible_tv_tiempo_destino.setText(tiempoDestino);
+		
+		viaje_posible_tv_distancia_destino = (TextView) findViewById(R.id.viaje_posible_tv_distancia_destino);
+		viaje_posible_tv_distancia_destino.setText(distanciaDestino);
 		
 		
+		viaje_posible_tv_tiempo_origen = (TextView) findViewById(R.id.viaje_posible_tv_tiempo_origen);
+		viaje_posible_tv_tiempo_origen.setText(Squerty2[0]);
 		
+		viaje_posible_tv_distancia_origen = (TextView) findViewById(R.id.viaje_posible_tv_distancia_origen);
+		viaje_posible_tv_distancia_origen.setText(Squerty2[1]);
 		
 		viaje_posible_btn_cancel = (Button) findViewById(R.id.viaje_posible_btn_cancel);
 		viaje_posible_btn_cancel.setOnClickListener(new View.OnClickListener() {
@@ -127,7 +157,10 @@ public class Viaje_posible extends Activity {
 			@Override
 			public void onClick(View v) {
 				//pinta en googlemaps el origen y mis coordenadas
-				
+				Intent intent = new Intent(Viaje_posible.this,MapaOrigenDestino.class);
+				intent.putExtra("punto", origen);
+				intent.putExtra("direccion", Sorigen);
+				startActivity(intent);
 			}
 		});
 		
@@ -137,7 +170,11 @@ public class Viaje_posible extends Activity {
 			@Override
 			public void onClick(View v) {
 				//pinta en googlemaps el destino 
-				
+				Intent intent = new Intent(Viaje_posible.this,MapaOrigenDestino.class);
+				intent.putExtra("punto", destino);
+				intent.putExtra("direccion", Sdestino);
+				startActivity(intent);
+
 			}
 		});
 		

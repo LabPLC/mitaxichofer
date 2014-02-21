@@ -36,7 +36,7 @@ public class Taximetro_choferActivity extends Activity {
 	Button btnRunService ;
 	Button btnStopService;
 	private LocationManager mLocationManager;
-	
+	public static String[] tokens;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -107,7 +107,7 @@ public class Taximetro_choferActivity extends Activity {
 				}
 				
 				String datos = i.getStringExtra("coordenadas");//obtenemos las coordenadas envidas del servicioGeolocalizaci—n
-				String[] tokens = datos.split(";");//separamos por tocken
+				 tokens = datos.split(";");//separamos por tocken
 				tvCoordenadas.append("latitud: " + tokens[0]+ " longitud: " + tokens[1] + " distancia: "+ tokens[2]);
 				tvCoordenadas.append("\n");//agregamos salto de linea
 	

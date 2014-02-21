@@ -44,5 +44,6 @@
     <string name="arranacarServicio">Arrancar servicio</string>
     <string name="detenerServicio">Detener servicio</string>
     <string name="title_activity_viaje_posible">Viaje_posible</string>
+    <string name="title_activity_mapa_origen_destino">MapaOrigenDestino</string>
 
 </resources>

@@ -101,7 +101,7 @@ public class SocketConnection {
 		                if(disposicion.equals("libre")){
 		                	 System.out.println("*******" + "Libre"+ "");
 		                	 
-		                }else if(disposicion.equals("ocupˆdo")){
+		                }else if(disposicion.equals("ocupado")){
 		                	 System.out.println("*******" + "ocupado"+ "");
 		                	 
 		                }else if(disposicion.equals("pendiente")){
