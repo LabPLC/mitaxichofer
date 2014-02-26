@@ -14,7 +14,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -40,7 +42,7 @@ public class Viaje_posible extends Activity {
 	private String pasajeros= "1",timpoOrigen="0",tiempoDestino="0",distanciaOrigen="0",distanciaDestino="0";
 	private String mascotas,discapacitados,bicicleta;
 	private ImageView viaje_posible_iv_destino, viaje_posible_iv_origen;
-	
+	private String uuid;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,8 @@ public class Viaje_posible extends Activity {
 		discapacitados = bundle.getString("discapacitados");
 		bicicleta = bundle.getString("bicicleta");
 		
+		SharedPreferences prefs = getSharedPreferences("MisPreferenciasChofer",Context.MODE_PRIVATE);
+		uuid = prefs.getString("uuid", null);
 		
 		//traemos las direcciones, distancia y tiempo
 		origen  = origen.replaceAll("[()]", "");
@@ -134,7 +138,14 @@ public class Viaje_posible extends Activity {
 			@Override
 			public void onClick(View v) {
 				//cambiar el viaje a cancelado
+				String consulta = "http://codigo.labplc.mx/~mikesaurio/taxi.php?act=viaje&type=update&pk_chofer="+uuid+"&estado=cancelado";
+				String querty = doHttpConnection(consulta);
+				//http://codigo.labplc.mx/~mikesaurio/taxi.php?act=viaje&type=update&pk_chofer=759f9adc-2a0c-4107-a229-6e277b01c874&estado=cancelado
+			
 				//cambiar mi estatus a libre
+				String consulta2 = "http://codigo.labplc.mx/~mikesaurio/taxi.php?act=pasajero&type=updateStatusChofer&pk="+uuid+"&status=libre";
+				String querty2 = doHttpConnection(consulta2);
+
 				Viaje_posible.this.finish();
 			}
 		});
@@ -144,8 +155,9 @@ public class Viaje_posible extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				//cambiar el viaje a aceptado
-				//tracking
+				//cambiar el viaje a cancelado
+				String consulta = "http://codigo.labplc.mx/~mikesaurio/taxi.php?act=viaje&type=update&pk_chofer="+uuid+"&estado=aceptado";
+				String querty = doHttpConnection(consulta);
 				
 			}
 		});

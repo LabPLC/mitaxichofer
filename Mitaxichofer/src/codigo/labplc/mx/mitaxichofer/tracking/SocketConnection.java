@@ -93,7 +93,7 @@ public class SocketConnection {
 			@Override
 			public void on(String event, IOAcknowledge ack, Object... args) {
 			//	System.out.println("Servidor de eventos activa '" + event + "'");
-				System.out.println("Servidor de eventos activa '" + args[0] + "'");
+			//	System.out.println("Servidor de eventos activa '" + args[0] + "'");
 				try {
 					  JSONObject jsonObj = new JSONObject(args[0].toString());
 		                String disposicion = jsonObj.getString("disposicion");
@@ -133,7 +133,7 @@ public class SocketConnection {
 		    				intent.putExtra("mascotas", mascotas);
 		    				intent.putExtra("discapacitados", discapacitados);
 		    				intent.putExtra("bicicleta", bicicleta);
-		    				act.startActivity(intent);
+
 		    				
 		    		
 		    				
@@ -141,7 +141,7 @@ public class SocketConnection {
 		    				String consulta2 = "http://codigo.labplc.mx/~mikesaurio/taxi.php?act=pasajero&type=updateStatusChofer&pk="+uuid+"&status=ocupado";
 		    				String querty2 = doHttpConnection(consulta2);
 		    				
-		    				
+		    				act.startActivity(intent);
 		    			
 		    				
 		    				
