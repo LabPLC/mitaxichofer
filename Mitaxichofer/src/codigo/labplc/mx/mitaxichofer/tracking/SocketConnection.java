@@ -93,7 +93,7 @@ public class SocketConnection {
 			@Override
 			public void on(String event, IOAcknowledge ack, Object... args) {
 			//	System.out.println("Servidor de eventos activa '" + event + "'");
-				System.out.println("Servidor de eventos activa '" + args[0] + "'");
+			//	System.out.println("Servidor de eventos activa '" + args[0] + "'");
 				try {
 					  JSONObject jsonObj = new JSONObject(args[0].toString());
 		                String disposicion = jsonObj.getString("disposicion");
