@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import codigo.labplc.mx.mitaxichofer.R;
 import codigo.labplc.mx.mitaxichofer.tracking.Taximetro_choferActivity;
+import codigo.labplc.mx.mitaxichofer.trip.MitaxiTripActivity;
 
 public class Viaje_posible extends Activity {
 
@@ -40,7 +41,7 @@ public class Viaje_posible extends Activity {
 	private Button viaje_posible_btn_ok;
 	private String pk_viaje=null,origen=null,destino=null,Sorigen=null,Sdestino=null;
 	private String pasajeros= "1",timpoOrigen="0",tiempoDestino="0",distanciaOrigen="0",distanciaDestino="0";
-	private String mascotas,discapacitados,bicicleta;
+	private String mascotas,discapacitados,bicicleta,placa;
 	private ImageView viaje_posible_iv_destino, viaje_posible_iv_origen;
 	private String uuid;
 	
@@ -59,6 +60,7 @@ public class Viaje_posible extends Activity {
 		mascotas = bundle.getString("mascotas");
 		discapacitados = bundle.getString("discapacitados");
 		bicicleta = bundle.getString("bicicleta");
+		placa = bundle.getString("placa");
 		
 		SharedPreferences prefs = getSharedPreferences("MisPreferenciasChofer",Context.MODE_PRIVATE);
 		uuid = prefs.getString("uuid", null);
@@ -146,6 +148,8 @@ public class Viaje_posible extends Activity {
 				String consulta2 = "http://codigo.labplc.mx/~mikesaurio/taxi.php?act=pasajero&type=updateStatusChofer&pk="+uuid+"&status=libre";
 				String querty2 = doHttpConnection(consulta2);
 
+				
+				
 				Viaje_posible.this.finish();
 			}
 		});
@@ -155,9 +159,22 @@ public class Viaje_posible extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				//cambiar el viaje a cancelado
+				//cambiar el viaje a aceptado
 				String consulta = "http://codigo.labplc.mx/~mikesaurio/taxi.php?act=viaje&type=update&pk_chofer="+uuid+"&estado=aceptado";
 				String querty = doHttpConnection(consulta);
+				
+//iniciamos el traking
+				
+				SharedPreferences prefs = getSharedPreferences("MisPreferenciasChofer",Context.MODE_PRIVATE);
+				String uuid = prefs.getString("uuid", null);
+				
+				Intent intent = new Intent(Viaje_posible.this,MitaxiTripActivity.class);
+				intent.putExtra("pk_viaje", pk_viaje);
+				intent.putExtra("pk_chofer", uuid);
+				intent.putExtra("placa", placa);
+				intent.putExtra("origen", origen);
+				intent.putExtra("destino", destino);
+            	startActivity(intent);
 				
 			}
 		});

@@ -87,6 +87,20 @@
             android:name="codigo.labplc.mx.mitaxichofer.pasajeposible.MapaOrigenDestino"
             android:label="@string/title_activity_mapa_origen_destino" >
         </activity>
+        
+                <activity
+            android:name="codigo.labplc.mx.mitaxichofer.trip.MitaxiTripActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="codigo.labplc.mx.mitaxichofer.trip.LocationActivity"
+            android:label="@string/app_name" >
+        </activity>
+
+        <service android:name="codigo.labplc.mx.mitaxichofer.trip.TaxiRouteService" >
+        </service>
+        
     </application>
 
 </manifest>
