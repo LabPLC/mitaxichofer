@@ -123,6 +123,7 @@ public class SocketConnection {
 		    				String mascotas = jObj.getString("mascotas");
 		    				String discapacitados = jObj.getString("discapacitados");
 		    				String bicicleta = jObj.getString("bicicleta");
+		    				String placa = jObj.getString("placa");
 		    				
 		    				
 		    				Intent intent = new Intent(act,Viaje_posible.class);
@@ -133,6 +134,7 @@ public class SocketConnection {
 		    				intent.putExtra("mascotas", mascotas);
 		    				intent.putExtra("discapacitados", discapacitados);
 		    				intent.putExtra("bicicleta", bicicleta);
+		    				intent.putExtra("placa", placa);
 
 		    				
 		    		
