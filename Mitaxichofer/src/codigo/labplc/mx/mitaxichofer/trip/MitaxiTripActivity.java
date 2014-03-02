@@ -1,9 +1,6 @@
 package codigo.labplc.mx.mitaxichofer.trip;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
@@ -14,33 +11,24 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.w3c.dom.Document;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import codigo.labplc.mx.mitaxichofer.R;
-import codigo.labplc.mx.mitaxichofer.registrer.dialogos.Dialogos;
 import codigo.labplc.mx.mitaxichofer.trip.beans.TaxiDriver;
 import codigo.labplc.mx.mitaxichofer.trip.dialogues.Dialogues;
 import codigo.labplc.mx.mitaxichofer.trip.location.AnimationFactory;
@@ -76,10 +64,13 @@ public class MitaxiTripActivity extends LocationActivity implements OnClickListe
 	private String pk_chofer;
 	private String placa;
 	private String origen="";
-	private String destino;
-	private String nombre,appat,apmat,marca,submarca,anio,foto,tipo;
+	private String destino,referencia;
 	private String tiempo= "0",distancia="0";
-	private String titulo ="Mi ubicaci�n";
+	private String titulo ="Mi ubicación";
+	private String direccionOrigen="",direccionDestino="";
+	private boolean flagBtnViaje = true;
+	
+	TextView mitaxi_trip_tv_titulo_direccion,mitaxi_trip_tv_direccion,mitaxi_trip_tv_referencia;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,13 +85,19 @@ public class MitaxiTripActivity extends LocationActivity implements OnClickListe
 		placa = bundle.getString("placa");
 		origen = bundle.getString("origen");
 		destino = bundle.getString("destino");
-		
+		referencia = bundle.getString("referencia");
 		
 		Log.d("pk_viaje", pk_viaje);
 		Log.d("pk_chofer", pk_chofer);
 		Log.d("origen", origen);
 		Log.d("destino", destino);
 		Log.d("placa", placa);
+		Log.d("referencia", placa);
+		
+		
+		
+		
+		
 		
 		//traemos las direcciones, distancia y tiempo
 				placa = placa.replaceAll(" ", "");
@@ -113,38 +110,25 @@ public class MitaxiTripActivity extends LocationActivity implements OnClickListe
 				
 				userPosition = new LatLng(Double.parseDouble(sorigen[0]),Double.parseDouble(sorigen[1]));
 				userPositionDestino = new LatLng(Double.parseDouble(sdestino[0]),Double.parseDouble(sdestino[1]));
-		
-				String consulta ="http://datos.labplc.mx/~mikesaurio/taxi.php?act=chofer&type=getchoferloginpk&pk_chofer="+pk_chofer+"&placa="+placa;
 				
+				
+				
+				
+				
+				//datos de origen destino
+				String consulta = "http://datos.labplc.mx/~mikesaurio/taxi.php?act=chofer&type=getGoogleData&lato="
+						+sorigen[0]+"&lngo="+sorigen[1]
+						+"&latd="+ sdestino[0]+"&lngd="+ sdestino[1]+"&filtro=todo";
 				String querty = doHttpConnection(consulta);
-			    
-			try{
-				  JSONObject json= (JSONObject) new JSONTokener(querty).nextValue();
-			      JSONObject json2 = json.getJSONObject("message");
-			      JSONObject jsonResponse = new JSONObject(json2.toString());
-			      JSONArray cast = jsonResponse.getJSONArray("chofer");
-			    //  Log.d("********************", cast.length()+"");
-			      if(cast.length()<=0){
-				    	 Toast.makeText(getBaseContext(), "No existen choferes con esas caracteristicas por ahora", Toast.LENGTH_LONG).show(); 
-			      }
-
-			      for (int i=0; i<cast.length(); i++) {
-			          	JSONObject oneObject = cast.getJSONObject(i);
-			          	
-			        tipo = 	oneObject.getString("tipo_taxi");
-			        nombre= 	oneObject.getString("nombre");
-			        appat=	oneObject.getString("apellido_paterno");
-			        apmat = 	oneObject.getString("apellido_materno");
-			        foto = 	oneObject.getString("foto");
-			        marca =	oneObject.getString("marca");
-			        submarca =	oneObject.getString("submarca");
-			        anio = 	oneObject.getString("anio");
-			      }
+				try {
+				//mostramos los resultados al chofer en el viaje
+				JSONObject jObj = new JSONObject(querty);
+				direccionOrigen = jObj.getString("origin_addresses");
+				direccionDestino = jObj.getString("destination_addresses");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}	 
 		
-		taxiDriver = new TaxiDriver(nombre,appat+" "+apmat,foto,placa,marca+" "+submarca+" "+anio,tipo);
-			}catch(Exception e){
-				
-			}
 		
 		this.initUI();
 	}
@@ -177,8 +161,6 @@ public class MitaxiTripActivity extends LocationActivity implements OnClickListe
 
 					map.clear();
 
-					
-					
 					drawRouteBetweenTwoPositions(latLng, userPosition);
 				}
 			}
@@ -189,50 +171,47 @@ public class MitaxiTripActivity extends LocationActivity implements OnClickListe
 	 * Create the interface of the taxi driver route
 	 */
 	public void initUI() {
-		// Imagen del taxista
-        ImageView ivDriverphoto = (ImageView) findViewById(R.id.mitaxi_trip_iv_driverpicture);
-        String consulta ="http://codigo.labplc.mx/~mikesaurio/picsDriver/"+foto;
-        ivDriverphoto.setImageBitmap(getBitmapFromURL(consulta));
         
         
         // Nombre y apellido del taxista
-        TextView tvDrivername = (TextView) findViewById(R.id.mitaxi_trip_tv_drivername);
-        tvDrivername.setText(getString(R.string.mitaxi_trip_tv_drivername, taxiDriver.getName() + " " + taxiDriver.getLastName()));
+         mitaxi_trip_tv_titulo_direccion = (TextView) findViewById(R.id.mitaxi_trip_tv_titulo_direccion);
+        mitaxi_trip_tv_titulo_direccion.setText("Dirección Origen");
         
         // Placa del auto que usa el taxista
-        TextView tvDrivertaxiplaca = (TextView) findViewById(R.id.mitaxi_trip_tv_drivertaxiid);
-        tvDrivertaxiplaca.setText(getString(R.string.mitaxi_trip_tv_drivertaxiid, taxiDriver.getPlaca()));
+        mitaxi_trip_tv_direccion = (TextView) findViewById(R.id.mitaxi_trip_tv_direccion);
+        mitaxi_trip_tv_direccion.setText(direccionOrigen);
         
         // Modelo del auto que usa el taxista
-        TextView tvDrivertaximodel = (TextView) findViewById(R.id.mitaxi_trip_tv_drivertaximodel);
-        tvDrivertaximodel.setText(getString(R.string.mitaxi_trip_tv_drivertaximodel, taxiDriver.getTaxiModelCar()));
+         mitaxi_trip_tv_referencia = (TextView) findViewById(R.id.mitaxi_trip_tv_referencia);
+        mitaxi_trip_tv_referencia.setText(referencia.replaceAll("+", " "));
       
-       /* TextView tvDrivertaxitipo = (TextView) findViewById(R.id.mitaxi_trip_tv_drivertaxitipo);
-        tvDrivertaxiplaca.setText("Tipo: "+taxiDriver.getTipo());*/
-       
-
-		
-        // Taxista erróneo
-        TextView tvWrongDriver = (TextView) findViewById(R.id.mitaxi_trip_tv_wrongdriver);
-        tvWrongDriver.setText(getString(R.string.mitaxi_trip_tv_wrongdriver));
-        tvWrongDriver.setMovementMethod(LinkMovementMethod.getInstance());
-
-        SpannableString spannableString = new SpannableString(tvWrongDriver.getText().toString());
-        ClickableSpan span = new ClickableSpan() {
-            @Override
-            public void onClick(View widget) {
-            	//new Dialogos().mostrarReportaTaxi(MitaxiTripActivity.this).show();
-            }
-        };
-        spannableString.setSpan(span, 0, 17, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        tvWrongDriver.setText(spannableString);
-        
         // Driver position button
         findViewById(R.id.mitaxi_trip_btn_driverPosition).setOnClickListener(this);
         
         // Start Trip button
-        findViewById(R.id.mitaxi_trip_btn_starttrip).setOnClickListener(this);
-        
+     final  Button mitaxi_trip_btn_starttrip= (Button) findViewById(R.id.mitaxi_trip_btn_starttrip);
+       mitaxi_trip_btn_starttrip.setOnClickListener(new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			if(flagBtnViaje){
+			mitaxi_trip_btn_starttrip.setText("Viaje Terminado");
+			titulo = "Mi destino";
+			mitaxi_trip_tv_titulo_direccion.setText("Dirección destino");
+			mitaxi_trip_tv_direccion.setText(direccionDestino);
+			mitaxi_trip_tv_referencia.setText("");
+			drawRouteBetweenTwoPositions(userPosition, userPositionDestino);
+			userPosition = userPositionDestino;
+			flagBtnViaje = false;
+			}else {
+				//cambiar a libre el status y  a finalizado el viaje
+				MitaxiTripActivity.this.finish();
+			}
+			
+		}
+	});
+       
+       
 		setUpMapIfNeeded();
 	}
 
@@ -398,12 +377,16 @@ public class MitaxiTripActivity extends LocationActivity implements OnClickListe
 				map.animateCamera(CameraUpdateFactory.newLatLngZoom(taxiPosition, map.getMaxZoomLevel() - 5));
 				break;
 				
-				
+			/*	
 			case R.id.mitaxi_trip_btn_starttrip:
+				
 				titulo = "Mi destino";
+				mitaxi_trip_tv_titulo_direccion.setText("Dirección destino");
+				mitaxi_trip_tv_direccion.setText(direccionDestino);
+				mitaxi_trip_tv_referencia.setText("");
 				drawRouteBetweenTwoPositions(userPosition, userPositionDestino);
 				userPosition = userPositionDestino;
-				break;
+				break;*/
 		}
 	}
 	
@@ -432,25 +415,6 @@ public class MitaxiTripActivity extends LocationActivity implements OnClickListe
 		}
 	}	
 	
-	public static Bitmap getBitmapFromURL(String src) {
-	    try {
-	        Log.e("src",src);
-	        URL url = new URL(src);
-	        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-	        connection.setDoInput(true);
-	        connection.connect();
-	        InputStream input = connection.getInputStream();
-	        Bitmap myBitmap = BitmapFactory.decodeStream(input);
-		    Matrix mat = new Matrix();
-	        mat.postRotate(-90);
-	        Bitmap bMapRotate = Bitmap.createBitmap(myBitmap, 0, 0, myBitmap.getWidth(), myBitmap.getHeight(), mat, true);
-	        Log.e("Bitmap","returned");
-	        return bMapRotate;
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	        Log.e("Exception",e.getMessage());
-	        return null;
-	    }
-	}
+	
 	
 }
