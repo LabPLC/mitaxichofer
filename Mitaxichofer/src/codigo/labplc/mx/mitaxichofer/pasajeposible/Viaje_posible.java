@@ -43,7 +43,7 @@ public class Viaje_posible extends Activity {
 	private String pasajeros= "1",timpoOrigen="0",tiempoDestino="0",distanciaOrigen="0",distanciaDestino="0";
 	private String mascotas,discapacitados,bicicleta,placa;
 	private ImageView viaje_posible_iv_destino, viaje_posible_iv_origen;
-	private String uuid;
+	private String uuid, referencia;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +61,7 @@ public class Viaje_posible extends Activity {
 		discapacitados = bundle.getString("discapacitados");
 		bicicleta = bundle.getString("bicicleta");
 		placa = bundle.getString("placa");
+		referencia = bundle.getString("referencia");
 		
 		SharedPreferences prefs = getSharedPreferences("MisPreferenciasChofer",Context.MODE_PRIVATE);
 		uuid = prefs.getString("uuid", null);
@@ -174,6 +175,7 @@ public class Viaje_posible extends Activity {
 				intent.putExtra("placa", placa);
 				intent.putExtra("origen", origen);
 				intent.putExtra("destino", destino);
+				intent.putExtra("referencia", referencia);
             	startActivity(intent);
 				
 			}

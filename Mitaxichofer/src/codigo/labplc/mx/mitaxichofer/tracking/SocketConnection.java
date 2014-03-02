@@ -76,6 +76,11 @@ public class SocketConnection {
 			@Override
 			public void onError(SocketIOException socketIOException) {
 				System.out.println("ERROR en socket");
+				//cambiar a ocupado
+         		SharedPreferences prefs = act.getSharedPreferences("MisPreferenciasChofer",Context.MODE_PRIVATE);
+        		String uuid = prefs.getString("uuid", null);
+				String consulta2 = "http://codigo.labplc.mx/~mikesaurio/taxi.php?act=pasajero&type=updateStatusChofer&pk="+uuid+"&status=libre";
+				String querty2 = doHttpConnection(consulta2);
 				socketIOException.printStackTrace();
 			}
 
@@ -124,6 +129,7 @@ public class SocketConnection {
 		    				String discapacitados = jObj.getString("discapacitados");
 		    				String bicicleta = jObj.getString("bicicleta");
 		    				String placa = jObj.getString("placa");
+		    				String referencia = jObj.getString("referencia");
 		    				
 		    				
 		    				Intent intent = new Intent(act,Viaje_posible.class);
@@ -135,6 +141,7 @@ public class SocketConnection {
 		    				intent.putExtra("discapacitados", discapacitados);
 		    				intent.putExtra("bicicleta", bicicleta);
 		    				intent.putExtra("placa", placa);
+		    				intent.putExtra("referencia", referencia);
 
 		    				
 		    		
